@@ -5,18 +5,18 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 1. What was broken when you started?
 
 - What did the game look like the first time you ran it?
-- List at least two concrete bugs you noticed at the start  
+- List at least two concrete bugs you noticed at the start
   (for example: "the hints were backwards").
 
 **Bug Reproduction Log**
 
 Document at least 3 bugs you found. Add rows as needed.
 
-| Input | Expected Behavior | Actual Behavior | Console Output / Error |
-|-------|-------------------|-----------------|------------------------|
-| | | | |
-| | | | |
-| | | | |
+| Input                                   | Expected Behavior                                                                                                                     | Actual Behavior                                       | Console Output / Error |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- | ---------------------- |
+| Hint is off                             | - When you make a guess > actual_number hint should tell you to**go lower** or **go higher** when guess < actual_number | hint just tells you randomly what direction to go to. |                        |
+| new_game button does not reset the game | - When you press "New Game" the game should reset and you start another round                                                         | nothing happens when you press "New Game".            |                        |
+|                                         |                                                                                                                                       |                                                       |                        |
 
 ---
 
@@ -31,8 +31,7 @@ Document at least 3 bugs you found. Add rows as needed.
 ## 3. Debugging and testing your fixes
 
 - How did you decide whether a bug was really fixed?
-- Describe at least one test you ran (manual or using pytest)  
-  and what it showed you about your code.
+- Describe at least one test you ran (manual or using pytest)and what it showed you about your code.
 - Did AI help you design or understand any tests? How?
 
 ---
