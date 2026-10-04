@@ -6,6 +6,7 @@ def reset_game():
     st.session_state.attempts = 1
     st.session_state.secret = random.randint(low, high)
     st.session_state.score = 0
+    st.session_state.game_difficulty = difficulty
     st.session_state.status = "playing"
     st.session_state.history = []
     st.session_state[f"guess_input_{difficulty}"] = ""
@@ -13,7 +14,6 @@ def reset_game():
 st.set_page_config(page_title="Glitchy Guesser", page_icon="🎮")
 
 st.title("🎮 Game Glitch Investigator")
-st.caption("An AI-generated guessing game. Something is off.")
 
 st.sidebar.header("Settings")
 
@@ -37,6 +37,13 @@ st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
 if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
+
+if "game_difficulty" not in st.session_state:
+    st.session_state.game_difficulty = difficulty
+
+# reset the game if difficuly level changes
+if st.session_state.game_difficulty != difficulty:
+    reset_game()
 
 if "attempts" not in st.session_state:
     st.session_state.attempts = 1
@@ -73,7 +80,7 @@ with col3:
 # 2. Wrap the display code in a function so it can be called after the state changes.
 def render_status():
     info_slot.info(
-        f"Guess a number between 1 and 100. "
+        f"Guess a number between {low} and {high}. "
         f"Attempts left: {attempt_limit - st.session_state.attempts}"
     )
     with debug_slot.container():
