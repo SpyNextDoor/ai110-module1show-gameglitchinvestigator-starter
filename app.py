@@ -46,6 +46,7 @@ if "attempts" not in st.session_state:
 if "score" not in st.session_state:
     st.session_state.score = 0
 
+# FIXME: session_state not displayed in debug info
 if "status" not in st.session_state:
     st.session_state.status = "playing"
 
@@ -64,6 +65,8 @@ with st.expander("Developer Debug Info"):
     st.write("Attempts:", st.session_state.attempts)
     st.write("Score:", st.session_state.score)
     st.write("Difficulty:", difficulty)
+    # added a display of the session state
+    st.write("Session State:", st.session_state.status)
     st.write("History:", st.session_state.history)
 
 raw_guess = st.text_input(
@@ -79,6 +82,7 @@ with col2:
 with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
+# FIXME: New game has to re-initialize all the parameters
 if new_game:
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(1, 100)
@@ -114,9 +118,9 @@ if submit:
             st.warning(message)
 
         st.session_state.score = update_score(
-            current_score=st.session_state.score,
-            outcome=outcome,
-            attempt_number=st.session_state.attempts,
+            current_score = st.session_state.score,
+            outcome = outcome,
+            attempt_number = st.session_state.attempts,
         )
 
         if outcome == "Win":
