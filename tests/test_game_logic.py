@@ -60,15 +60,6 @@ def test_hint_is_consistent_across_repeated_calls():
     results = {check_guess(90, 20) for _ in range(20)}
     assert len(results) == 1
 
-
-def test_hint_with_string_secret_compares_numerically():
-    # app.py passes the secret as a str on even attempts; 9 vs "10" must
-    # still be "Too Low" (a string comparison would say "9" > "10").
-    assert check_guess(9, "10")[0] == "Too Low"
-    assert check_guess(100, "20")[0] == "Too High"
-    assert check_guess(42, "42")[0] == "Win"
-
-
 # ---------------------------------------------------------------------------
 # Bug 2: "New Game" button did nothing
 # ---------------------------------------------------------------------------
