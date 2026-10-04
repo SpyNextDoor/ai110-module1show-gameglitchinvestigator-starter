@@ -2,14 +2,13 @@ import random
 import streamlit as st
 from logic_utils import *
 
-def get_range_for_difficulty(difficulty: str):
-    if difficulty == "Easy":
-        return 1, 20
-    if difficulty == "Normal":
-        return 1, 100
-    if difficulty == "Hard":
-        return 1, 50
-    return 1, 100
+def reset_game():
+    st.session_state.attempts = 1
+    st.session_state.secret = random.randint(low, high)
+    st.session_state.score = 0
+    st.session_state.status = "playing"
+    st.session_state.history = []
+    st.session_state[f"guess_input_{difficulty}"] = ""
 
 
 st.set_page_config(page_title="Glitchy Guesser", page_icon="🎮")
@@ -46,7 +45,6 @@ if "attempts" not in st.session_state:
 if "score" not in st.session_state:
     st.session_state.score = 0
 
-# FIXME: session_state not displayed in debug info
 if "status" not in st.session_state:
     st.session_state.status = "playing"
 
@@ -78,16 +76,10 @@ col1, col2, col3 = st.columns(3)
 with col1:
     submit = st.button("Submit Guess 🚀")
 with col2:
-    new_game = st.button("New Game 🔁")
+    new_game = st.button("New Game 🔁", on_click=reset_game)
 with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
-# FIXME: New game has to re-initialize all the parameters
-if new_game:
-    st.session_state.attempts = 0
-    st.session_state.secret = random.randint(1, 100)
-    st.success("New game started.")
-    st.rerun()
 
 if st.session_state.status != "playing":
     if st.session_state.status == "won":
