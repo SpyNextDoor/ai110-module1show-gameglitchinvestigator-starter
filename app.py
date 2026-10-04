@@ -10,7 +10,6 @@ def reset_game():
     st.session_state.history = []
     st.session_state[f"guess_input_{difficulty}"] = ""
 
-
 st.set_page_config(page_title="Glitchy Guesser", page_icon="🎮")
 
 st.title("🎮 Game Glitch Investigator")
@@ -53,19 +52,9 @@ if "history" not in st.session_state:
 
 st.subheader("Make a guess")
 
-st.info(
-    f"Guess a number between 1 and 100. "
-    f"Attempts left: {attempt_limit - st.session_state.attempts}"
-)
-
-with st.expander("Developer Debug Info"):
-    st.write("Secret:", st.session_state.secret)
-    st.write("Attempts:", st.session_state.attempts)
-    st.write("Score:", st.session_state.score)
-    st.write("Difficulty:", difficulty)
-    # added a display of the session state
-    st.write("Session State:", st.session_state.status)
-    st.write("History:", st.session_state.history)
+# 1. Reserve empty spots on the page. Nothing is drawn in them yet.
+info_slot = st.empty()
+debug_slot = st.empty()
 
 raw_guess = st.text_input(
     "Enter your guess:",
@@ -81,13 +70,32 @@ with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
 
+# 2. Wrap the display code in a function so it can be called after the state changes.
+def render_status():
+    info_slot.info(
+        f"Guess a number between 1 and 100. "
+        f"Attempts left: {attempt_limit - st.session_state.attempts}"
+    )
+    with debug_slot.container():
+        with st.expander("Developer Debug Info"):
+            st.write("Secret:", st.session_state.secret)
+            st.write("Attempts:", st.session_state.attempts)
+            st.write("Score:", st.session_state.score)
+            st.write("Difficulty:", difficulty)
+            st.write("Session State:", st.session_state.status)
+            st.write("History:", st.session_state.history)
+
+
+# 3. Game already over: draw the panel, show the message, stop.
 if st.session_state.status != "playing":
+    render_status()
     if st.session_state.status == "won":
         st.success("You already won. Start a new game to play again.")
     else:
         st.error("Game over. Start a new game to try again.")
     st.stop()
 
+# 4. Handle the submit. This changes the state.
 if submit:
     st.session_state.attempts += 1
 
@@ -110,9 +118,9 @@ if submit:
             st.warning(message)
 
         st.session_state.score = update_score(
-            current_score = st.session_state.score,
-            outcome = outcome,
-            attempt_number = st.session_state.attempts,
+            current_score=st.session_state.score,
+            outcome=outcome,
+            attempt_number=st.session_state.attempts,
         )
 
         if outcome == "Win":
@@ -131,5 +139,9 @@ if submit:
                     f"Score: {st.session_state.score}"
                 )
 
+# 5. Draw the panel last, after the state is up to date.
+render_status()
+
 st.divider()
 st.caption("Built by an AI that claims this code is production-ready.")
+
