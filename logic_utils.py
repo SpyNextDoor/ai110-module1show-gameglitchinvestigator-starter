@@ -31,6 +31,7 @@ def parse_guess(raw: str):
 def check_guess(guess, secret):
     secret = int(secret)
 
+    # FIX: Reversed the logic in the right direction
     if guess == secret:
         return "Win", "🎉 Correct!"
 
