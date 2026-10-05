@@ -15,7 +15,7 @@ def reset_game():
 
 st.set_page_config(page_title="Glitchy Guesser", page_icon="🎮")
 
-st.title("🎮 Game Glitch Investigator")
+st.title("🎮 Game: Glitch Investigator")
 
 st.sidebar.header("Settings")
 
