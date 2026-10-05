@@ -87,7 +87,7 @@ def render_status():
         f"Attempts left: {attempt_limit - st.session_state.attempts}"
     )
     with debug_slot.container():
-        with st.expander("Developer Debug Info"):
+        with st.expander("Status Panel"):
             # st.write("Secret:", st.session_state.secret)
             st.write("Attempts:", st.session_state.attempts)
             st.write("Score:", st.session_state.score)
