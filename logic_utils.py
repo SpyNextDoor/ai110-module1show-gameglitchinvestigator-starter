@@ -1,3 +1,5 @@
+# FIX: Refactored all the helper functions into logic_utils
+
 def get_range_for_difficulty(difficulty: str):
     if difficulty == "Easy":
         return 1, 20
@@ -36,6 +38,8 @@ def check_guess(guess, secret):
         return "Too High", "📈 Go LOWER!"
     else:
         return "Too Low", "📉 Go HIGHER!"
+
+    # FIX: removed the try/except clause that converted guess into string. 
     
 
 def update_score(current_score: int, outcome: str, attempt_number: int):

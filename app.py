@@ -2,6 +2,8 @@ import random
 import streamlit as st
 from logic_utils import *
 
+# FIX: Added a reset game function to reset the game 
+# when New Game button is pressed.
 def reset_game():
     st.session_state.attempts = 1
     st.session_state.secret = random.randint(low, high)
@@ -41,7 +43,7 @@ if "secret" not in st.session_state:
 if "game_difficulty" not in st.session_state:
     st.session_state.game_difficulty = difficulty
 
-# reset the game if difficuly level changes
+# FIX: reset the game if difficuly level changes
 if st.session_state.game_difficulty != difficulty:
     reset_game()
 
@@ -77,7 +79,8 @@ with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
 
-# 2. Wrap the display code in a function so it can be called after the state changes.
+# FIX: 2. Wrap the display code in a function 
+# so it can be called after the state changes.
 def render_status():
     info_slot.info(
         f"Guess a number between {low} and {high}. "
@@ -85,7 +88,7 @@ def render_status():
     )
     with debug_slot.container():
         with st.expander("Developer Debug Info"):
-            st.write("Secret:", st.session_state.secret)
+            # st.write("Secret:", st.session_state.secret)
             st.write("Attempts:", st.session_state.attempts)
             st.write("Score:", st.session_state.score)
             st.write("Difficulty:", difficulty)
@@ -114,6 +117,8 @@ if submit:
     else:
         st.session_state.history.append(guess_int)
 
+        # FIX: removed the int --> str casting
+        # when attempts % 2 == 0
         secret = st.session_state.secret
 
         outcome, message = check_guess(guess_int, secret)
